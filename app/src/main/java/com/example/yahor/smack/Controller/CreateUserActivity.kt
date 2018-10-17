@@ -1,9 +1,11 @@
-package com.example.yahor.smack
+package com.example.yahor.smack.Controller
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.yahor.smack.R
+import com.example.yahor.smack.Services.AuthService
 import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.Random
 
@@ -34,7 +36,10 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     fun createUserClicked(view: View){
-
+        AuthService.registerUser(this, "j@j.com", "123456") { complete ->
+            if (complete) {
+            }
+        }
     }
 
     fun generateColorClicked(view: View){
