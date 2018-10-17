@@ -35,27 +35,33 @@ class CreateUserActivity : AppCompatActivity() {
         createAvatarImageView.setImageResource(resourceId)
     }
 
-    fun createUserClicked(view: View){
-        AuthService.registerUser(this, "j@j.com", "123456") { complete ->
-            if (complete) {
+    fun createUserClicked(view: View) {
+        val email = createEmailText.text.toString()
+        val password = createPasswortText.text.toString()
+        AuthService.registerUser(this, email, password) { registerSuccess ->
+            if (registerSuccess) {
+                AuthService.loginUser(this, email, password) { loginSuccess ->
+                    if (loginSuccess) {
+                        println(AuthService.authToken)
+                        println(AuthService.userEmail)
+                    }
+                }
             }
         }
+
+        fun generateColorClicked(view: View) {
+            val random = Random()
+            val r = random.nextInt(255)
+            val g = random.nextInt(255)
+            val b = random.nextInt(255)
+
+            createAvatarImageView.setBackgroundColor(Color.rgb(r, g, b))
+
+            val savedR = r.toDouble() / 255
+            val savedG = g.toDouble() / 255
+            val savedB = b.toDouble() / 255
+
+            avatarColor = "[$savedR,$savedG,$savedB,1]"
+        }
     }
-
-    fun generateColorClicked(view: View){
-        val random = Random()
-        val r = random.nextInt(255)
-        val g = random.nextInt(255)
-        val b = random.nextInt(255)
-
-        createAvatarImageView.setBackgroundColor(Color.rgb(r,g,b))
-
-        val savedR = r.toDouble()/255
-        val savedG = g.toDouble()/255
-        val savedB = b.toDouble()/255
-
-        avatarColor = "[$savedR,$savedG,$savedB,1]"
-
-    }
-
 }
