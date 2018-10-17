@@ -55,7 +55,7 @@ class CreateUserActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        }}}
 
         fun generateColorClicked(view: View) {
             val random = Random()
@@ -71,5 +71,5 @@ class CreateUserActivity : AppCompatActivity() {
 
             avatarColor = "[$savedR,$savedG,$savedB,1]"
         }
-    }
-}}
+
+}
