@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.yahor.smack.R
+import com.example.yahor.smack.Services.AuthService
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -15,6 +17,18 @@ class LoginActivity : AppCompatActivity() {
 
     fun loginLoginBtnClicked(view: View){
 
+        val email = loginEmailTxt.text.toString()
+        val password = loginPasswordTxt.text.toString()
+
+        AuthService.loginUser(this, email, password) {loginSuccess ->
+            if (loginSuccess){
+                AuthService.findUserByEmail(this){ findSuccess ->
+                    if (findSuccess){
+                        finish()
+                    }
+                }
+            }
+        }
     }
 
     fun loginCreateUserBtnClicked(view: View){
