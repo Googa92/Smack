@@ -45,7 +45,7 @@ class CreateUserActivity : AppCompatActivity() {
         enableSpinner (true)
         val userName = createUserNameText.text.toString()
         val email = createEmailText.text.toString()
-        val password = createPasswortText.text.toString()
+        val password = createPasswordText.text.toString()
 
         if (userName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
             AuthService.registerUser(this, email, password) { registerSuccess ->
@@ -88,7 +88,7 @@ class CreateUserActivity : AppCompatActivity() {
         backgroundColorBtn.isEnabled = !enable
         createUserNameText.isEnabled = !enable
         createEmailText.isEnabled = !enable
-        createPasswortText.isEnabled = !enable
+        createPasswordText.isEnabled = !enable
     }
 
     fun errorToast(){
