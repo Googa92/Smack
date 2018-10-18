@@ -86,6 +86,9 @@ class CreateUserActivity : AppCompatActivity() {
         createUserBtn.isEnabled = !enable
         createAvatarImageView.isEnabled = !enable
         backgroundColorBtn.isEnabled = !enable
+        createUserNameText.isEnabled = !enable
+        createEmailText.isEnabled = !enable
+        createPasswortText.isEnabled = !enable
     }
 
     fun errorToast(){
