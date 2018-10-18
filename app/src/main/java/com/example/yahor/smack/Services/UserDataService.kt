@@ -2,6 +2,7 @@ package com.example.yahor.smack.Services
 
 import android.graphics.Color
 import android.widget.Toast
+import com.example.yahor.smack.Controller.App
 import com.example.yahor.smack.Controller.CreateUserActivity
 import java.util.Scanner
 
@@ -20,9 +21,9 @@ object UserDataService {
         avatarName = ""
         email = ""
         name = ""
-        AuthService.authToken = ""
-        AuthService.userEmail = ""
-        AuthService.isLoggedIn = false
+        App.prefs.authToken = ""
+        App.prefs.userEmail = ""
+        App.prefs.isLoggedIn = false
     }
 
     fun returnAvatarColor(components:String): Int{
