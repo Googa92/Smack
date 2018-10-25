@@ -28,6 +28,7 @@ object MessageService {
                         val newChannel = Channel(name, chanDesc, channelId)
                         this.channels.add(newChannel)
                     }
+
                     complete(true)
                 } catch (e: JSONException) {
                     Log.d("JSON", "EXC:" + e.localizedMessage)

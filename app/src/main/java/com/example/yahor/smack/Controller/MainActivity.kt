@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity() {
         socket.on("channelCreated",onNewChannel)
         socket.on("messageCreated",onNewMessage)
 
+
+
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
@@ -82,6 +84,11 @@ class MainActivity : AppCompatActivity() {
         if (App.prefs.isLoggedIn){
             AuthService.findUserByEmail(this){}
         }
+    }
+
+    override fun onResume() {
+        updateWithChannel()
+        super.onResume()
     }
 
     override fun onDestroy() {
@@ -113,17 +120,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateWithChannel(){
-        mainChannelName.text = "#${selectedChannel?.name}"
-        if (selectedChannel != null){
-            MessageService.getMessages(selectedChannel!!.id){complete ->
-                if(complete){
-                    messageAdapter.notifyDataSetChanged()
-                    if(messageAdapter.itemCount>0){
-                        messageListView.smoothScrollToPosition(messageAdapter.itemCount-1)
+    fun updateWithChannel() {
+        if (App.prefs.isLoggedIn) {
+            if (selectedChannel != null) {
+                mainChannelName.text = "#${selectedChannel?.name}"
+                MessageService.getMessages(selectedChannel!!.id) { complete ->
+                    if (complete) {
+                        messageAdapter.notifyDataSetChanged()
+                        if (messageAdapter.itemCount > 0) {
+                            messageListView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                        }
                     }
                 }
+            } else {
+                mainChannelName.text = "Please create new channel"
             }
+        } else {
+            mainChannelName.text = "Please Log In"
         }
     }
 

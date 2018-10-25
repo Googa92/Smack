@@ -59,6 +59,7 @@ class MessageAdapter(val context: Context, val messages:ArrayList<Message>): Rec
             }
 
             val outDateString = SimpleDateFormat("E, h:mm a", Locale.getDefault())
+            outDateString.timeZone = TimeZone.getTimeZone("America/Los_Angeles")
             return outDateString.format(convertedDate)
         }
     }
