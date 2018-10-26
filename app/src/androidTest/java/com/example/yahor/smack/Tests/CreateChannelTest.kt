@@ -4,7 +4,7 @@ import android.support.test.rule.ActivityTestRule
 import com.example.yahor.smack.Controller.MainActivity
 import org.junit.Rule
 
-class CreateChannelTest {
+class CreateChannelTest:BaseTest() {
 
 @Rule
 var mActivityTestRule = ActivityTestRule(MainActivity::class.java)

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
+import android.support.test.espresso.IdlingRegistry
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -34,6 +35,7 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    val countingIdlingResource = AuthService.countingIdlingResource
     val socket = IO.socket(SOCKET_URL)
     lateinit var channelAdapter: ArrayAdapter<Channel>
     lateinit var messageAdapter: MessageAdapter
@@ -82,7 +84,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (App.prefs.isLoggedIn){
+            IdlingRegistry.getInstance().register(countingIdlingResource)
             AuthService.findUserByEmail(this){}
+            IdlingRegistry.getInstance().unregister(countingIdlingResource)
         }
     }
 

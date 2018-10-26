@@ -1,4 +1,4 @@
 package com.example.yahor.smack.Tests
 
-class CreateUserTest {
+class CreateUserTest:BaseTest() {
 }

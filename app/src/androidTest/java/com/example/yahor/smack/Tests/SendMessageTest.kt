@@ -2,6 +2,6 @@ package com.example.yahor.smack.Tests
 
 
 
-class SendMessageTest(){
+class SendMessageTest:BaseTest(){
 
 }

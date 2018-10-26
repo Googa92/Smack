@@ -31,11 +31,7 @@ class UserNavigationScreen: BaseScreen() {
         )
 
     val userIsLogout: ViewInteraction
-        get() = onView(allOf(
-                withId(R.id.linearLayout),
-                withText("Login")
-            )
-        )
+        get() = loginLogoutBtn.check(matches(withText("LOGIN")))
 
     private val addChannelBtn: ViewInteraction
         get() = Espresso.onView(ViewMatchers.withId(R.id.addChannelBtn))

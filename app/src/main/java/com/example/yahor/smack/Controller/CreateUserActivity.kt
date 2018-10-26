@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.test.espresso.IdlingRegistry
 import android.support.v4.content.LocalBroadcastManager
 import android.view.View
 import android.widget.Toast
@@ -15,6 +16,7 @@ import java.util.Random
 
 class CreateUserActivity : AppCompatActivity() {
 
+    val countingIdlingResource = AuthService.countingIdlingResource
     var userAvatar = "profileDefault"
     var avatarColor = "[0.5,0.5,0.5,1]"
 
@@ -48,25 +50,30 @@ class CreateUserActivity : AppCompatActivity() {
         val password = createPasswordText.text.toString()
 
         if (userName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
+            IdlingRegistry.getInstance().register(countingIdlingResource)
             AuthService.registerUser(this, email, password) { registerSuccess ->
                 if (registerSuccess) {
                     AuthService.loginUser( email, password) { loginSuccess ->
                         if (loginSuccess) {
                             AuthService.createUser(userName,email,userAvatar,avatarColor){createSuccess ->
                                 if (createSuccess) {
+                                    IdlingRegistry.getInstance().unregister(countingIdlingResource)
                                     val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
                                     enableSpinner(false)
                                     finish()
                                 } else {
+                                    IdlingRegistry.getInstance().unregister(countingIdlingResource)
                                     errorToast()
                                 }
                             }
                         } else{
+                            IdlingRegistry.getInstance().unregister(countingIdlingResource)
                             errorToast()
                         }
                     }
                 } else {
+                    IdlingRegistry.getInstance().unregister(countingIdlingResource)
                     errorToast()
                 }
             }

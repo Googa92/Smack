@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.test.espresso.IdlingRegistry
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_create_user.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
+
+    val countingIdlingResource = AuthService.countingIdlingResource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,17 +31,21 @@ class LoginActivity : AppCompatActivity() {
         enableSpinner(true)
 
         if(email.isNotEmpty() && password.isNotEmpty()){
+            IdlingRegistry.getInstance().register(countingIdlingResource)
             AuthService.loginUser( email, password) { loginSuccess ->
                 if (loginSuccess) {
                     AuthService.findUserByEmail(this) { findSuccess ->
                         if (findSuccess) {
+                            IdlingRegistry.getInstance().unregister(countingIdlingResource)
                             enableSpinner(false)
                             finish()
                         } else {
+                            IdlingRegistry.getInstance().register(countingIdlingResource)
                             errorToast()
                         }
                     }
                 } else {
+                    IdlingRegistry.getInstance().register(countingIdlingResource)
                     errorToast()
                 }
             }
@@ -70,6 +77,7 @@ class LoginActivity : AppCompatActivity() {
     fun errorToast() {
         Toast.makeText(this, "Somethin went wrong, please try again", Toast.LENGTH_LONG).show()
         enableSpinner(false)
+
     }
 
     fun hideKeyboard(){
