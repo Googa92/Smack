@@ -1,5 +1,5 @@
 # Smack
-It's an example project for demonstrate Espresso tests. It also includes typical unit tests using JUnit4. All codes are written in Kotlin
+It's an example project for demonstrate Espresso tests. Collection of samples demonstrating different frameworks and techniques for automated testing, all background jobs syncronized by IdlingResource. Codes are written in Kotlin.
 
 # Espresso Test
 
