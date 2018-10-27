@@ -3,8 +3,6 @@ It's an example project for demonstrate Espresso tests. Collection of samples de
 
 # Espresso Test
 
-*If you are new to Espresso, try this sample first.*
-
 This project uses the Gradle build system. You don't need an IDE to build and execute it but Android Studio is recommended.
 
 1. Download the project code, preferably using git clone.
