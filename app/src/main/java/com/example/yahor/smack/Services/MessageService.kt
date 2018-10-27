@@ -14,10 +14,14 @@ object MessageService {
 
     val channels = ArrayList<Channel>()
     val messages = ArrayList<Message>()
+    val countingIdlingResource = AuthService.countingIdlingResource
 
     fun getChannels(complete: (Boolean) -> Unit) {
+
+        countingIdlingResource.increment()
         val channelsRequest = object : JsonArrayRequest(Method.GET, URL_GET_CHANNELS, null,
             Response.Listener { response ->
+                countingIdlingResource.decrement()
                 try {
                     for (x in 0 until response.length()) {
                         val channel = response.getJSONObject(x)
@@ -28,6 +32,7 @@ object MessageService {
                         val newChannel = Channel(name, chanDesc, channelId)
                         this.channels.add(newChannel)
                     }
+
                     complete(true)
                 } catch (e: JSONException) {
                     Log.d("JSON", "EXC:" + e.localizedMessage)
@@ -35,6 +40,7 @@ object MessageService {
                 }
 
             }, Response.ErrorListener { error ->
+                countingIdlingResource.decrement()
                 Log.d("ERROR", "Could not retrieve channels")
                 complete(false)
 
@@ -54,9 +60,13 @@ object MessageService {
 
     fun getMessages(channelId: String, complete: (Boolean) -> Unit) {
 
+        countingIdlingResource.increment()
+
         var url = "$URL_GET_MESSAGES$channelId"
 
         val messagesRequest = object : JsonArrayRequest(Method.GET, url, null, Response.Listener { response ->
+
+            countingIdlingResource.decrement()
             clearMessages()
             try {
                 for (x in 0 until response.length()) {
@@ -78,6 +88,8 @@ object MessageService {
                 complete(false)
             }
         }, Response.ErrorListener { error ->
+
+            countingIdlingResource.decrement()
             Log.d("ERROR", "Could not retrieve channels")
             complete(false)
         }) {

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
+import android.support.test.espresso.IdlingRegistry
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -34,6 +35,7 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    val countingIdlingResource = AuthService.countingIdlingResource
     val socket = IO.socket(SOCKET_URL)
     lateinit var channelAdapter: ArrayAdapter<Channel>
     lateinit var messageAdapter: MessageAdapter
@@ -80,8 +82,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (App.prefs.isLoggedIn){
+            IdlingRegistry.getInstance().register(countingIdlingResource)
             AuthService.findUserByEmail(this){}
+            IdlingRegistry.getInstance().unregister(countingIdlingResource)
         }
+    }
+
+    override fun onResume() {
+        updateWithChannel()
+        super.onResume()
     }
 
     override fun onDestroy() {
@@ -113,17 +122,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateWithChannel(){
-        mainChannelName.text = "#${selectedChannel?.name}"
-        if (selectedChannel != null){
-            MessageService.getMessages(selectedChannel!!.id){complete ->
-                if(complete){
-                    messageAdapter.notifyDataSetChanged()
-                    if(messageAdapter.itemCount>0){
-                        messageListView.smoothScrollToPosition(messageAdapter.itemCount-1)
+    fun updateWithChannel() {
+        if (App.prefs.isLoggedIn) {
+            if (selectedChannel != null) {
+                mainChannelName.text = "#${selectedChannel?.name}"
+                MessageService.getMessages(selectedChannel!!.id) { complete ->
+                    if (complete) {
+                        messageAdapter.notifyDataSetChanged()
+                        if (messageAdapter.itemCount > 0) {
+                            messageListView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                        }
                     }
                 }
+            } else {
+                mainChannelName.text = "Please create new channel"
             }
+        } else {
+            mainChannelName.text = "Please Log In"
         }
     }
 

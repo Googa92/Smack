@@ -1,9 +1,7 @@
 package com.example.yahor.smack.Services
 
 import android.graphics.Color
-import android.widget.Toast
 import com.example.yahor.smack.Controller.App
-import com.example.yahor.smack.Controller.CreateUserActivity
 import java.util.Scanner
 
 object UserDataService {

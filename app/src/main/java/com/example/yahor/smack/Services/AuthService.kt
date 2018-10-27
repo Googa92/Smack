@@ -2,12 +2,12 @@ package com.example.yahor.smack.Services
 
 import android.content.Context
 import android.content.Intent
+import android.support.test.espresso.idling.CountingIdlingResource
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.example.yahor.smack.Controller.App
 import com.example.yahor.smack.Utilities.BROADCAST_USER_DATA_CHANGE
 import com.example.yahor.smack.Utilities.URL_CREATE_USER
@@ -19,12 +19,12 @@ import org.json.JSONObject
 
 object AuthService {
 
-    //var isLoggedIn = false
-    //var userEmail = ""
-    //var authToken = ""
+    val countingIdlingResource = CountingIdlingResource("API")
 
-    fun registerUser(context: Context, email: String, password: String, complete: (Boolean) -> Unit
-    ){
+    fun registerUser(context: Context, email: String, password: String, complete: (Boolean) -> Unit){
+
+        countingIdlingResource.increment()
+
         val jsonBody = JSONObject()
         jsonBody.put("email", email)
         jsonBody.put("password", password)
@@ -32,8 +32,10 @@ object AuthService {
 
         val registerRequest =
             object : StringRequest(Method.POST, URL_REGISTER, Response.Listener { response ->
+                countingIdlingResource.decrement()
                 complete(true)
             }, Response.ErrorListener { error ->
+                countingIdlingResource.decrement()
                 Log.d("ERROR", "Could not register user: $error")
                 complete(false)
 
@@ -52,6 +54,8 @@ object AuthService {
 
     fun loginUser( email: String, password: String, complete: (Boolean) -> Unit) {
 
+        countingIdlingResource.increment()
+
         val jsonBody = JSONObject()
         jsonBody.put("email", email)
         jsonBody.put("password", password)
@@ -60,6 +64,7 @@ object AuthService {
         val loginRequest = object : JsonObjectRequest(Method.POST, URL_LOGIN, null,
 
             Response.Listener { response ->
+                countingIdlingResource.decrement()
 
                 try{
                     App.prefs.userEmail = response.getString("user")
@@ -72,6 +77,7 @@ object AuthService {
                 }
 
             }, Response.ErrorListener { error ->
+                countingIdlingResource.decrement()
                 Log.d("ERROR", "Could not login user: $error")
                 complete(false)
             })
@@ -89,6 +95,8 @@ object AuthService {
 
     fun createUser(name:String, email: String, avatarName:String, avatarColor:String, complete: (Boolean) -> Unit){
 
+        countingIdlingResource.increment()
+
         val jsonBody = JSONObject()
         jsonBody.put("name", name)
         jsonBody.put("email", email)
@@ -98,6 +106,7 @@ object AuthService {
 
         val createRequest = object : JsonObjectRequest(Method.POST, URL_CREATE_USER, null, 
             Response.Listener {response ->
+                countingIdlingResource.decrement()
                 try {
 
                     UserDataService.name = response.getString("name")
@@ -113,6 +122,8 @@ object AuthService {
                 }
         },
             Response.ErrorListener{error ->
+
+                countingIdlingResource.decrement()
                 Log.d("ERROR", "Could not register user: $error")
                 complete(false)
         }) {
@@ -135,8 +146,12 @@ object AuthService {
 
     fun findUserByEmail(context:Context, complete: (Boolean) -> Unit){
 
+        countingIdlingResource.increment()
+
         val findUserRequest = object: JsonObjectRequest(Method.GET, "$URL_GET_USER${App.prefs.userEmail}", null,
             Response.Listener {response ->
+
+                countingIdlingResource.decrement()
                 try {
                     UserDataService.name = response.getString("name")
                     UserDataService.email = response.getString("email")
@@ -153,6 +168,9 @@ object AuthService {
                 }
             },
             Response.ErrorListener {  error ->
+
+                countingIdlingResource.decrement()
+
                 Log.d("ERROR", "Could not find user.")
                 complete(false)
             }){
