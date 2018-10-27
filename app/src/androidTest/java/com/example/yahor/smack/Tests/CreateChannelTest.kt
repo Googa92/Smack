@@ -6,8 +6,15 @@ import org.junit.Rule
 
 class CreateChannelTest:BaseTest() {
 
-@Rule
-var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
+
+
+    @Rule
+    @JvmField
+    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
+
+
+
+
 
 
 }

@@ -10,12 +10,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.yahor.smack.R
 import com.example.yahor.smack.Services.AuthService
-import kotlinx.android.synthetic.main.activity_create_user.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
     val countingIdlingResource = AuthService.countingIdlingResource
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
         val email = loginEmailTxt.text.toString()
         val password = loginPasswordTxt.text.toString()
-        hideKeyboard()
         enableSpinner(true)
 
         if(email.isNotEmpty() && password.isNotEmpty()){
@@ -39,14 +39,19 @@ class LoginActivity : AppCompatActivity() {
                             IdlingRegistry.getInstance().unregister(countingIdlingResource)
                             enableSpinner(false)
                             finish()
+
                         } else {
                             IdlingRegistry.getInstance().register(countingIdlingResource)
                             errorToast()
+                            loginEmailTxt.setText("")
+                            loginPasswordTxt.setText("")
                         }
                     }
                 } else {
                     IdlingRegistry.getInstance().register(countingIdlingResource)
                     errorToast()
+                    loginEmailTxt.setText("")
+                    loginPasswordTxt.setText("")
                 }
             }
         } else {

@@ -20,7 +20,7 @@ class UserNavigationScreen: BaseScreen() {
     private val loginLogoutBtn: ViewInteraction
         get() = onView(withId(R.id.loginBtnNavHeader))
 
-    private val userEmailI: ViewInteraction
+    private val userEmailInfo: ViewInteraction
         get() = onView(withId(R.id.userEmailNavHeader))
 
     val channelIsAdded: ViewInteraction
@@ -37,7 +37,7 @@ class UserNavigationScreen: BaseScreen() {
         get() = Espresso.onView(ViewMatchers.withId(R.id.addChannelBtn))
 
     val userInfoIsDisplayed: ViewInteraction
-        get() = userEmailI.check(matches(isDisplayed()))
+        get() = userEmailInfo.check(matches(isDisplayed()))
 
     override val uniqueView: ViewInteraction
         get() = loginLogoutBtn

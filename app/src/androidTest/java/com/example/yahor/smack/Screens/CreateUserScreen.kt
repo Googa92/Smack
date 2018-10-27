@@ -3,7 +3,9 @@ package com.example.yahor.smack.Screens
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
@@ -25,7 +27,7 @@ class CreateUserScreen: BaseScreen(){
     private val generateUserAvatarBtn: ViewInteraction
         get() = Espresso.onView(ViewMatchers.withId(R.id.createAvatarImageView))
 
-    private val createBackgroundColorBtn: ViewInteraction
+    private val generateBackgroundColorBtn: ViewInteraction
         get() = Espresso.onView(ViewMatchers.withId(R.id.backgroundColorBtn))
 
     private val createUserBtn: ViewInteraction
@@ -38,21 +40,19 @@ class CreateUserScreen: BaseScreen(){
         uniqueView.check(matches(isDisplayed()))
     }
 
-    fun enterNewUser(userName: String, email: String, password: String){
+    fun enterNewUser(userName: String, email: String, password: String, passwordType: PasswordType):BaseScreen{
         userNameField.perform(typeText(userName))
         emailField.perform(typeText(email))
-        passwordField.perform(typeText(password))
-    }
-
-    fun tapOnGenerateUserAvatarBtn(){
-        generateUserAvatarBtn.perform(click())
-    }
-
-    fun tapOnGenerateBackgroundColorBtn(){
-        createBackgroundColorBtn.perform(click())
-    }
-
-    fun tapOnCreateUserBtn(){
+        passwordField.perform(typeText(password), closeSoftKeyboard())
         createUserBtn.perform(click())
+        when(passwordType){
+            PasswordType.Valid -> return UserNavigationScreen()
+            PasswordType.Invalid -> return CreateUserScreen()
+        }
+    }
+
+    fun generateUserAvatar(){
+        generateUserAvatarBtn.perform(click())
+        generateBackgroundColorBtn.perform(click())
     }
 }

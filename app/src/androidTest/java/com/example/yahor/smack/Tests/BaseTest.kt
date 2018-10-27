@@ -8,6 +8,7 @@ open class BaseTest {
     val validEmail = "test@test"
     val validPassword = "123456"
     val randomString = "${Random().nextInt(10000-1)}"
+    val random = Random().nextInt(70000-1)
 
 
     fun pressBack(){

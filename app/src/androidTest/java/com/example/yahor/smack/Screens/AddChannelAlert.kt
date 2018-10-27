@@ -7,7 +7,7 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import com.example.yahor.smack.R
 
-class AddChannelScreen: BaseScreen() {
+class AddChannelAlert: BaseScreen() {
 
         private val channelNameField: ViewInteraction
         get() = Espresso.onView(ViewMatchers.withId(R.id.addChannelNameTxt))

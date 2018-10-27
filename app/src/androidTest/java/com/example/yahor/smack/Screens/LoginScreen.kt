@@ -31,14 +31,18 @@ class LoginScreen: BaseScreen(){
         uniqueView.check(matches(isDisplayed()))
     }
 
-    fun enterAndLogin (email: String, password: String): UserNavigationScreen {
+    fun enterAndLogin (email: String, password: String, passwordType: PasswordType): BaseScreen {
         emailField.perform(typeText(email))
         passwordField.perform(typeText(password), closeSoftKeyboard())
         loginBtn.perform(click())
-        return UserNavigationScreen()
+
+        when(passwordType){
+            PasswordType.Valid -> return UserNavigationScreen()
+            PasswordType.Invalid -> return LoginScreen()
+        }
     }
 
-    fun tapOnSignUoHereBtn() : CreateUserScreen {
+    fun clickOnSignUpHereBtn() : CreateUserScreen {
         signUpHereBtn.perform(click())
         return CreateUserScreen()
     }
