@@ -56,6 +56,4 @@ class MainScreen: BaseScreen() {
         closeSoftKeyboard()
         sendMessageBtn.perform(click())
     }
-
-
 }

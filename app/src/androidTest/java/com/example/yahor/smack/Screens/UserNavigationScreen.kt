@@ -51,8 +51,9 @@ class UserNavigationScreen: BaseScreen() {
             return LoginScreen()
     }
 
-    fun clickOnAddChannelBtn() {
+    fun clickOnAddChannelBtn() :AddChannelAlert {
         addChannelBtn.perform(click())
+        return AddChannelAlert()
     }
 
 }
