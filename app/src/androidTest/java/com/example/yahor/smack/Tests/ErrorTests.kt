@@ -1,8 +1,6 @@
 package com.example.yahor.smack.Tests
 
-import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.rule.ActivityTestRule
@@ -11,7 +9,6 @@ import com.example.yahor.smack.Screens.CreateUserScreen
 import com.example.yahor.smack.Screens.LoginScreen
 import com.example.yahor.smack.Screens.MainScreen
 import com.example.yahor.smack.Screens.PasswordType
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test

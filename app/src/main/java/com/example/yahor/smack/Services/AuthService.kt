@@ -8,7 +8,6 @@ import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.example.yahor.smack.Controller.App
 import com.example.yahor.smack.Utilities.BROADCAST_USER_DATA_CHANGE
 import com.example.yahor.smack.Utilities.URL_CREATE_USER

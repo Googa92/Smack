@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         socket.on("channelCreated",onNewChannel)
         socket.on("messageCreated",onNewMessage)
 
-
-
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,

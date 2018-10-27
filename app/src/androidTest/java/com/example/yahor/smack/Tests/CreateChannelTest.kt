@@ -13,8 +13,8 @@ import org.junit.Test
 
 class CreateChannelTest:BaseTest() {
 
-    val testChannelName = "TestCh${random}"
-    private val teshChannelDescription = "Test"
+    private val testChannelName = "TestCh${random}"
+    private val testChannelDescription = "Test"
 
     @Rule
     @JvmField
@@ -27,7 +27,7 @@ class CreateChannelTest:BaseTest() {
         login.loginTest()
         val userNavigationScreen = UserNavigationScreen()
         val addChannelAlert = userNavigationScreen.clickOnAddChannelBtn()
-        addChannelAlert.addNewChannel(testChannelName,teshChannelDescription)
+        addChannelAlert.addNewChannel(testChannelName,testChannelDescription)
         onView(
             allOf(
                 withId(R.id.channel_list),

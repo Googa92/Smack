@@ -7,7 +7,6 @@ import com.example.yahor.smack.Screens.PasswordType
 import com.example.yahor.smack.Screens.UserNavigationScreen
 import org.junit.Rule
 import org.junit.Test
-import java.util.Random
 
 class CreateUserTest:BaseTest() {
 

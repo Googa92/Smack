@@ -36,7 +36,7 @@ class LoginScreen: BaseScreen(){
         passwordField.perform(typeText(password), closeSoftKeyboard())
         loginBtn.perform(click())
 
-        when(passwordType){
+        when(passwordType) {
             PasswordType.Valid -> return UserNavigationScreen()
             PasswordType.Invalid -> return LoginScreen()
         }

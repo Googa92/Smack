@@ -10,9 +10,7 @@ open class BaseTest {
     val randomString = "${Random().nextInt(10000-1)}"
     val random = Random().nextInt(70000-1)
 
-
     fun pressBack(){
         Espresso.pressBack()
     }
-
 }
